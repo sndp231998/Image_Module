@@ -35,21 +35,22 @@ public class SecurityConfig {
 
         return http.build();
     }
-
     @Bean
     public CorsConfigurationSource corsConfig() {
 
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of(
-                "http://localhost:5173",
-                "https://kryzox-users.netlify.app"
-        ));
+        config.setAllowedOriginPatterns(List.of("*"));
+//        config.setAllowedOriginPatterns(List.of(
+//                "http://localhost:*",
+//                "https://*.netlify.app",
+//                "https://usersmodule.netlify.app"
+//        ));
         config.setAllowedMethods(List.of(
                 "GET", "POST", "DELETE", "PUT", "OPTIONS"
         ));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true);
-        config.setAllowedHeaders(List.of("*"));
+
         config.setExposedHeaders(List.of("*"));
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
