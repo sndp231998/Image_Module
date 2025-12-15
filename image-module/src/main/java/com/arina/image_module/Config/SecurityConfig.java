@@ -6,7 +6,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.cors.CorsConfigurationSource;
 
@@ -41,19 +40,22 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfig() {
 
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOriginPatterns(List.of("*"));
-//        config.setAllowedOriginPatterns(List.of(
-//                "http://localhost:*",
-//                "https://*.netlify.app",
-//                "https://usersmodule.netlify.app"
-//        ));
-        config.setAllowedMethods(List.of(
-                "GET", "POST", "DELETE", "PUT", "OPTIONS"
-        ));
-        config.setAllowedHeaders(List.of("*"));
-        config.setAllowCredentials(false);
 
+        // ✅ MUST specify exact origins when credentials = true
+        config.setAllowedOrigins(List.of(
+                "https://usersmodule.netlify.app",
+                "https://*.netlify.app"
+        ));
+
+        config.setAllowedMethods(List.of(
+                "GET", "POST", "PUT", "DELETE", "OPTIONS"
+        ));
+
+        config.setAllowedHeaders(List.of("*"));
         config.setExposedHeaders(List.of("*"));
+
+        // ✅ REQUIRED for withCredentials:true
+        config.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
