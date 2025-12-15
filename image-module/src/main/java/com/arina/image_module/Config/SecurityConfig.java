@@ -50,7 +50,7 @@ public class SecurityConfig {
                 "GET", "POST", "DELETE", "PUT", "OPTIONS"
         ));
         config.setAllowedHeaders(List.of("*"));
-        config.setAllowCredentials(true);
+        config.setAllowCredentials(false);
 
         config.setExposedHeaders(List.of("*"));
 
