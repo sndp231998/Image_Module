@@ -21,11 +21,17 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .cors(cors -> cors.configurationSource(corsConfig()))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/image/**").permitAll()   // <-- Allow image APIs
-                        .anyRequest().permitAll()                  // <-- No login required
+                        // ✅ Allow preflight
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+
+                        // ✅ Allow image APIs
+                        .requestMatchers("/image/**").permitAll()
+
+                        // ✅ Allow everything else
+                        .anyRequest().permitAll()
                 )
-                .formLogin(form -> form.disable())                 // <-- Disable redirect to /login
-                .httpBasic(basic -> basic.disable());              // <-- Disable HTTP basic auth
+                .formLogin(form -> form.disable())
+                .httpBasic(basic -> basic.disable());
 
         return http.build();
     }
